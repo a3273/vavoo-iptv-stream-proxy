@@ -37,6 +37,14 @@ function getBaseSites(selection) {
 
 const app = express();
 const httpHost = options.httpHost;
+function getPublicBaseUrl(req) {
+    const forwardedProto = req.headers['x-forwarded-proto'];
+    const protocol = String(forwardedProto || req.protocol || 'http')
+        .split(',')[0]
+        .trim();
+
+    return `${protocol}://${req.headers.host}`;
+}
 const port = Number(options.httpPort);
 const currentLanguage = options.vavooLanguage;
 const currentRegion = options.vavooRegion;
