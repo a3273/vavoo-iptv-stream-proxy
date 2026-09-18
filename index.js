@@ -204,7 +204,6 @@ function getStreamHeaders(req) {
 function getProxiedUpstreamUrl(req, upstreamUrl) {
     return `https://${req.headers.host}/hls-proxy?url=${encodeURIComponent(upstreamUrl)}`;
 }
-}
 
 /**
  * Sends HLS playlists as uncached M3U8 responses.
