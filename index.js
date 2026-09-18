@@ -202,7 +202,7 @@ function getStreamHeaders(req) {
  * Example: `https://host/live.m3u8` -> `/hls-proxy?url=...`.
  */
 function getProxiedUpstreamUrl(req, upstreamUrl) {
-    return `${getPublicBaseUrl(req)}/hls-proxy?url=${encodeURIComponent(upstreamUrl)}`;
+    return `https://${req.headers.host}/hls-proxy?url=${encodeURIComponent(upstreamUrl)}`;
 }
 }
 
