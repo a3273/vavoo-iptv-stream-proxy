@@ -702,7 +702,7 @@ app.get('/channels.m3u8', async function (req, res) {
             output.push(`#EXTINF:-1 tvg-name="${channel.name}" group-title="${channel.country}" tvg-logo="${channel.logo}" tvg-id="${channel.name}",${channel.name}`);
             output.push('#EXTVLCOPT:http-user-agent=VAVOO/2.6');
             output.push('#EXTVLCOPT:no-ssl-verify');
-            output.push(`${getPublicBaseUrl(req)}/stream/${encodeURIComponent(channel.id)}`);
+            output.push(`https://${req.headers.host}/stream/${encodeURIComponent(channel.id)}`);
         }
 
         setPlaylistHeaders(res);
