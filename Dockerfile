@@ -2,9 +2,14 @@ FROM node:24-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci
+COPY package.json package-lock.json ./
+
+RUN npm ci --no-audit --no-fund
 
 COPY . .
 
-CMD ["sh", "-c", "npm start"]
+ENV PORT=8888
+
+EXPOSE 8888
+
+CMD ["npm", "start"]
