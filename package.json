@@ -4,7 +4,7 @@
   "description": "Vavoo IPTV Stream Proxy",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js --http-host 0.0.0.0 --http-port $PORT"
+    "start": "node index.js --http-host 0.0.0.0 --http-port 3000"
   },
   "dependencies": {
     "commander": "^14.0.3",
