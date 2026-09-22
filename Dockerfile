@@ -1,22 +1,20 @@
 FROM node:24-alpine
 
-# Installa ffmpeg (richiesto per lo streaming)
 RUN apk add --no-cache ffmpeg
 
 WORKDIR /app
 
-# Copia package files
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install --production
 
-# Copia il codice
 COPY . .
 
-# Configurazione porta
-ENV PORT=8888
 ENV NODE_ENV=production
+ENV PORT=3000
 
-EXPOSE 8888
+EXPOSE 3000
 
-# Health check endpoint
-RUN echo 'const http = require("http"); http.createServer((req, res) => { res.writeHead(200); res.end("OK"); }).listen(process.env.PORT || 8888);'
+# Health check leggero
+RUN echo 'const http=require("http");http.createServer((q,s)=>{s.end("OK")}).listen(3000)' > health.js
+
+CMD ["sh", "-c", "node health.js & node index.js"]
