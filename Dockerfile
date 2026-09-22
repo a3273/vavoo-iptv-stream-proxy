@@ -1,20 +1,19 @@
 FROM node:24-alpine
 
-RUN apk add --no-cache ffmpeg
-
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install --production
+# Copia package files
+COPY package.json package-lock.json* ./
+RUN npm ci --only=production || npm install --production
 
+# Copia il codice
 COPY . .
 
+# Variabili ambiente
 ENV NODE_ENV=production
 ENV PORT=3000
 
 EXPOSE 3000
 
-# Health check leggero
-RUN echo 'const http=require("http");http.createServer((q,s)=>{s.end("OK")}).listen(3000)' > health.js
-
-CMD ["sh", "-c", "node health.js & node index.js"]
+# Usa lo script start dal package.json
+CMD ["npm", "start"]
