@@ -27,7 +27,7 @@ const app = express();
  * Use the PORT supplied by the platform.
  * Fall back to 8888 when running locally.
  */
-const httpHost = process.env.HOST || options.httpHost || '0.0.0.0';
+const httpHost = '0.0.0.0';
 const port = Number(process.env.PORT) || Number(options.httpPort) || 8888;
 
 const currentLanguage = options.vavooLanguage;
@@ -696,6 +696,25 @@ async function resolveStreamUrl(channel) {
             console.log(
                 `[vavoo] resolve failed for ${baseUrl}: ${error.message}`
             );
+
+            if (error?.statusCode) {
+                console.log(
+                    `[vavoo] resolve HTTP status: ${error.statusCode}`
+                );
+            }
+
+            if (error?.body) {
+                try {
+                    console.log(
+                        '[vavoo] resolve response body:',
+                        JSON.stringify(error.body)
+                    );
+                } catch {
+                    console.log(
+                        '[vavoo] resolve response body: [unserializable]'
+                    );
+                }
+            }
         }
     }
 
@@ -1170,6 +1189,7 @@ console.log('ENV PORT:', process.env.PORT || 'not set');
 console.log('Region:', currentRegion);
 console.log('Language:', currentLanguage);
 console.log('Base sites:', baseSites.join(', '));
+console.log('OneBit mode: explicit 0.0.0.0 bind');
 console.log('----------------------------------------');
 
 const server = app.listen(
@@ -1197,10 +1217,9 @@ const server = app.listen(
 
 server.on('error', function (error) {
 
-    console.error(
-        '[SERVER ERROR]',
-        error
-    );
+    console.error('[SERVER ERROR]', error);
+    console.error('[SERVER ERROR MESSAGE]', error?.message || 'unknown');
+    console.error('[SERVER ERROR CODE]', error?.code || 'unknown');
 
     process.exit(1);
 });
