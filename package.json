@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node index.js --http-host 0.0.0.0 --http-port 8888"
+    "start": "node index.js --http-host 0.0.0.0 --http-port $PORT"
   },
   "dependencies": {
     "commander": "^14.0.3",
